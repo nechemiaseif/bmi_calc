@@ -10,6 +10,9 @@
     <string name="error_msg_height_or_weight_not_valid">The height and weight much each be not empty and greater than 0.</string>
     <string name="bmi">BMI:</string>
     <string name="bmi_group">BMI Group:</string>
+    <string name="reset_calculation_count">Reset Calculation Count</string>
+    <string name="about">About</string>
+    <string name="about_text">Created by Nechemia Seif for the Spring \'21 MCON 521 Final Exam</string>
 
     <plurals name="calcs_done">
         <item quantity="one">Calculation done:</item>

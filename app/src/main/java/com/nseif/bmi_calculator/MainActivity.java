@@ -1,10 +1,13 @@
 package com.nseif.bmi_calculator;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.util.Pair;
@@ -18,9 +21,12 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
+import static com.nseif.bmi_calculator.Utils.showInfoDialog;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String sFORMAT_STRING = "%2.2f";
+    private static final String mCALCULATIONS_DONE_KEY = "CALCULATIONS_DONE";
 
     private BMICalc mBMICalc;               // model
     private EditText mEditTextHeight, mEditTextWeight;
@@ -119,6 +125,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(mCALCULATIONS_DONE_KEY, mCalculationsDone);
+    }
+
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mCalculationsDone = savedInstanceState.getInt(mCALCULATIONS_DONE_KEY);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -133,10 +153,22 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            showAbout();
+            return true;
+        } else if (id == R.id.action_reset) {
+            resetCalculationCount();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showAbout() {
+        showInfoDialog(MainActivity.this, R.string.about, R.string.about_text);
+    }
+
+    private void resetCalculationCount() {
+        mCalculationsDone = 0;
     }
 }
